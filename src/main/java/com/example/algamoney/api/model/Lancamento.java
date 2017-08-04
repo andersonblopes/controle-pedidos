@@ -3,49 +3,54 @@ package com.example.algamoney.api.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "lancamento")
 public class Lancamento {
 
-	private Long codigo;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private String descricao;
 
+	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
 
+	@Column(name = "data_pagamento")
 	private LocalDate dataPagamento;
 
 	private BigDecimal valor;
 
 	private String observacao;
 
+	@Enumerated(EnumType.STRING)
+	private TipoLancamento tipo;
+
+	@ManyToOne
+	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 
-	private TipoLancamento tipoLancamento;
-
+	@ManyToOne
+	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 
-	public Lancamento() {
-
+	public Long getId() {
+		return id;
 	}
 
-	public Lancamento(String descricao, LocalDate dataVencimento, LocalDate dataPagamento, BigDecimal valor,
-			String observacao, Categoria categoria, TipoLancamento tipoLancamento, Pessoa pessoa) {
-		super();
-		this.descricao = descricao;
-		this.dataVencimento = dataVencimento;
-		this.dataPagamento = dataPagamento;
-		this.valor = valor;
-		this.observacao = observacao;
-		this.categoria = categoria;
-		this.tipoLancamento = tipoLancamento;
-		this.pessoa = pessoa;
-	}
-
-	public Long getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getDescricao() {
@@ -88,20 +93,20 @@ public class Lancamento {
 		this.observacao = observacao;
 	}
 
+	public TipoLancamento getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoLancamento tipo) {
+		this.tipo = tipo;
+	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
-	}
-
-	public TipoLancamento getTipoLancamento() {
-		return tipoLancamento;
-	}
-
-	public void setTipoLancamento(TipoLancamento tipoLancamento) {
-		this.tipoLancamento = tipoLancamento;
 	}
 
 	public Pessoa getPessoa() {
@@ -116,7 +121,7 @@ public class Lancamento {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -129,10 +134,10 @@ public class Lancamento {
 		if (getClass() != obj.getClass())
 			return false;
 		Lancamento other = (Lancamento) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!codigo.equals(other.codigo))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
