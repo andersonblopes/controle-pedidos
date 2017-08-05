@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "lancamento")
 public class Lancamento {
@@ -23,7 +25,7 @@ public class Lancamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@NotBlank
 	private String descricao;
 
 	@NotNull
