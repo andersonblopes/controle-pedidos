@@ -10,6 +10,7 @@ import com.example.algamoney.api.model.Lancamento;
 import com.example.algamoney.api.model.Pessoa;
 import com.example.algamoney.api.repository.LancamentoRepository;
 import com.example.algamoney.api.repository.PessoaRepository;
+import com.example.algamoney.api.repository.filter.LancamentoFilter;
 import com.example.algamoney.api.service.exception.PessoaInexistenteOuInativaException;
 
 @Service
@@ -21,8 +22,8 @@ public class LancamentoService {
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 
-	public List<Lancamento> listarTodos() {
-		return lancamentoRepository.findAll();
+	public List<Lancamento> filtrar(LancamentoFilter lancamentoFilter) {
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 
 	public Lancamento findById(Long id) {
