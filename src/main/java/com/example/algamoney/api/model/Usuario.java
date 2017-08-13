@@ -2,8 +2,19 @@ package com.example.algamoney.api.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;;
+
+@Entity
+@Table(name = "usuario")
 public class Usuario {
 
+	@Id
 	private Long id;
 
 	private String nome;
@@ -12,18 +23,9 @@ public class Usuario {
 
 	private String senha;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "permissao_id"))
 	private List<Permissao> permissoes;
-
-	public Usuario() {
-
-	}
-
-	public Usuario(String nome, String email, String senha) {
-		super();
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-	}
 
 	public Long getId() {
 		return id;
