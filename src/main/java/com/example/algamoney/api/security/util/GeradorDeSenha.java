@@ -1,4 +1,4 @@
-package com.example.algamoney.api.util;
+package com.example.algamoney.api.security.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
