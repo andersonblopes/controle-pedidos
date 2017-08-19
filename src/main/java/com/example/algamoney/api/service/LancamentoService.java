@@ -2,6 +2,7 @@ package com.example.algamoney.api.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +47,35 @@ public class LancamentoService {
 
 	public void delete(Long id) {
 		lancamentoRepository.delete(id);
+	}
+
+	public Lancamento atualizar(Long codigo, Lancamento lancamento) {
+		Lancamento lancamentoSalvo = buscarLancamento(codigo);
+		if (lancamento.getPessoa().equals(lancamentoSalvo.getPessoa())) {
+			validarPessoa(lancamento);
+		}
+
+		BeanUtils.copyProperties(lancamento, lancamentoSalvo, "id");
+
+		return lancamentoRepository.save(lancamentoSalvo);
+	}
+
+	private void validarPessoa(Lancamento lancamento) {
+		Pessoa pessoa = null;
+		if (lancamento.getPessoa().getId() != null) {
+			pessoa = pessoaRepository.findOne(lancamento.getPessoa().getId());
+		}
+		if (pessoa == null || pessoa.isInativo()) {
+			throw new PessoaInexistenteOuInativaException();
+		}
+	}
+
+	private Lancamento buscarLancamento(Long codigo) {
+		Lancamento lancamentoSalvo = lancamentoRepository.findOne(codigo);
+		if (lancamentoSalvo == null) {
+			throw new IllegalArgumentException();
+		}
+		return lancamentoSalvo;
 	}
 
 }
